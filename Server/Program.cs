@@ -2,8 +2,17 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Identity.Web;
+using BlazorECSiteSample.Server.Data;
+using Microsoft.EntityFrameworkCore;
+using BlazorECSiteSample.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContextFactory<DataContext>(options => {
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddScoped<IProductService, ProductService>();
 
 // Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
