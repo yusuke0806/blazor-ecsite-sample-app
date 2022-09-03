@@ -18,6 +18,7 @@ builder.Services.AddHttpClient<PublicHttpClient>("BlazorECommerce.AnonymousAPI",
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BlazorECSiteSample.ServerAPI"));
 
 builder.Services.AddScoped<IPublicProductService, PublicProductService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddMsalAuthentication(options =>
 {
