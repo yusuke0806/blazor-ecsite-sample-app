@@ -2,12 +2,13 @@
 using System.Net.Http.Json;
 using BlazorECSiteSample.Client.Util;
 using BlazorECSiteSample.Shared.Entities;
+using BlazorECSiteSample.Client.Extensions;
 
 namespace BlazorECSiteSample.Client.Services
 {
     public interface IPublicProductService
     {
-        ValueTask<List<Product>> GetAllAsync();
+        ValueTask<List<Product>?> GetAllAsync();
         ValueTask<Product> GetAsync(int id);
     }
 
@@ -23,6 +24,7 @@ namespace BlazorECSiteSample.Client.Services
         public async ValueTask<List<Product>> GetAllAsync()
         {
             var response = await _httpClient.GetAsync("api/product");
+            await response.HandleError();
             
             return await response.Content.ReadFromJsonAsync<List<Product>>();
         }
@@ -30,6 +32,7 @@ namespace BlazorECSiteSample.Client.Services
         public async ValueTask<Product> GetAsync(int id)
         {
             var response = await _httpClient.GetAsync($"api/Product/{id}");
+            await response.HandleError();
 
             return await response.Content.ReadFromJsonAsync<Product>();
         }

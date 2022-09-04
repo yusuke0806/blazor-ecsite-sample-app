@@ -10,8 +10,24 @@
                 </form>
             </div>
         </nav>
-        <article class="content px-4">
-            @Body
-        </article>
+        <ErrorBoundary @ref="_errorBoundary">
+            <ChildContent>
+                <article class="content px-4">
+                    @Body
+                </article>
+            </ChildContent>
+            <ErrorContent>
+                <Error Exception="@context"></Error>
+            </ErrorContent>
+        </ErrorBoundary>
     </main>
 </div>
+
+@code {
+    private ErrorBoundary? _errorBoundary;
+
+    protected override void OnParametersSet()
+    {
+        _errorBoundary?.Recover();
+    }
+}

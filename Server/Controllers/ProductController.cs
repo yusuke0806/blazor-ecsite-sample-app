@@ -19,13 +19,16 @@ namespace BlazorECSiteSample.Server.Controllers
 			_productService = productService;
 		}
 
-		[HttpGet("{id}")]
+		[HttpGet("{id:int}")]
 		[Produces(MediaTypeNames.Application.Json)]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async ValueTask<ActionResult<Product>> Get(int id)
 		{
 			var product = await _productService.FindAsync(id);
+			if (product is null)
+				return NotFound("商品が見つかりませんでした。");
+			
 			return Ok(product);
 		}
 
