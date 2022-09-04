@@ -20,9 +20,23 @@ public class UserController : ControllerBase
     [HttpGet("me")]
     public async ValueTask<ActionResult<ShopUser>> GetMe()
     {
-        var shopUser = await _userService.GetAsync(GetUserId());
+        var userId = GetUserId();
+        var shopUser = await _userService.GetAsync(userId);
         return Ok(shopUser);
+
     }
+
+    [HttpPut]
+    public async ValueTask<ActionResult> Put(ShopUser shopUser)
+    {
+        var userId = GetUserId();
+        if (userId != null)
+        {
+            await _userService.PutAsync(shopUser,userId);   
+        }
+        return NoContent();
+    }
+    
     private string? GetUserId()
         => User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 }
