@@ -1,0 +1,41 @@
+@page "/products/{id:int}"
+@inject IPublicProductService PublicProductService
+
+<PageTitle>商品詳細 - @product?.Title</PageTitle> <BackToTop></BackToTop>
+@if (product is null)
+{
+    <p><em>Loading...</em></p>
+}
+else 
+{
+    <div class="row">
+        <img src="@product.ImageUrl" class="col-sm-3" style=" height: 300px; object-fit: contain;">
+        
+        <div class="col-sm-6">
+            <h2>@product.Title</h2>
+            <p>@product.Description</p>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title text-danger">
+                        ¥@product.UnitPrice.ToString("#,    0")
+                    </h4>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        本商品はダウンロードコンテンツです 。
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@code{
+    [Parameter]
+    public int Id { get; set; }
+    private Product product;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        product = await PublicProductService.GetAsync(Id);
+    }
+}

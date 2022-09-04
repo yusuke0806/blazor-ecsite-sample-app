@@ -8,23 +8,31 @@ namespace BlazorECSiteSample.Server.Services
 	public interface IProductService
     {
 		ValueTask<List<Product>> GetAllAsync();
-	}
+		ValueTask<Product> FindAsync(int id);
+    }
 
 	public class ProductService : IProductService
     {
-		private readonly DataContext dataContext;
+		private readonly DataContext _dataContext;
 
 		public ProductService(IDbContextFactory<DataContext> dbContextFactory)
-			=> dataContext = dbContextFactory.CreateDbContext();
-        
-
+			=> _dataContext = dbContextFactory.CreateDbContext();
+		
 		public async ValueTask<List<Product>> GetAllAsync()
         {
-			using (dataContext)
+	        await using (_dataContext)
             {
-                return await dataContext.Products.ToListAsync();
+                return await _dataContext.Products.ToListAsync();
             }
         }
+
+		public async ValueTask<Product> FindAsync(int id)
+		{
+			await using (_dataContext)
+			{
+				return await _dataContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+			}
+		}
 	}
 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mime;
 using BlazorECSiteSample.Server.Services;
 using BlazorECSiteSample.Shared.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +17,16 @@ namespace BlazorECSiteSample.Server.Controllers
 		public ProductController(IProductService productService)
 		{
 			_productService = productService;
+		}
+
+		[HttpGet("{id}")]
+		[Produces(MediaTypeNames.Application.Json)]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		public async ValueTask<ActionResult<Product>> Get(int id)
+		{
+			var product = await _productService.FindAsync(id);
+			return Ok(product);
 		}
 
         [HttpGet]
