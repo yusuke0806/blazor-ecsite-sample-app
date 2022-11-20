@@ -1,21 +1,20 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BlazorECSiteSample.Shared.Entities
+namespace BlazorECSiteSample.Shared.Entities;
+
+public class Product
 {
-	public class Product
-	{
-        public int Id { get; set; }
+	public int Id { get; set; }
 
-        [Column(TypeName = "nvarchar(255)")]
-        public string Title { get; set; }
+	[Column(TypeName = "nvarchar(255)")]
+	public string Title { get; set; }
 
-        public string Description { get; set; }
+	public string Description { get; set; }
 
-        public string ImageUrl { get; set; }
+	public string ImageUrl { get; set; }
 
-        [Column(TypeName = "decimal(10,2)")]
-        public decimal UnitPrice { get; set; }
-    }
+	[Column(TypeName = "decimal(10,2)")]
+	public decimal UnitPrice { get; set; }
 }
 

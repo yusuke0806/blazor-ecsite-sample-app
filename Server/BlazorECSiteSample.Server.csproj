@@ -2,9 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>BlazorECSiteSample.Server-ef435923-ec9a-4652-9447-1e1e54249e40</UserSecretsId>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

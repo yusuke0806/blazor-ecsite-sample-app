@@ -4,37 +4,37 @@ using BlazorECSiteSample.Client.Util;
 using BlazorECSiteSample.Shared.Entities;
 using BlazorECSiteSample.Client.Extensions;
 
-namespace BlazorECSiteSample.Client.Services
+namespace BlazorECSiteSample.Client.Services;
+
+public interface IPublicProductService
 {
-    public interface IPublicProductService
+    ValueTask<List<Product>?> GetAllAsync();
+    ValueTask<Product> GetAsync(int id);
+}
+
+public class PublicProductService : IPublicProductService
+{
+    private readonly HttpClient _httpClient;
+
+    public PublicProductService(PublicHttpClient publicHttpClient)
     {
-        ValueTask<List<Product>?> GetAllAsync();
-        ValueTask<Product> GetAsync(int id);
+        _httpClient = publicHttpClient.httpClient;
     }
 
-    public class PublicProductService : IPublicProductService
+    public async ValueTask<List<Product>> GetAllAsync()
     {
-        private readonly HttpClient _httpClient;
+        var response = await _httpClient.GetAsync("api/product");
+        await response.HandleError();
+        
+        return await response.Content.ReadFromJsonAsync<List<Product>>();
+    }
 
-        public PublicProductService(PublicHttpClient publicHttpClient)
-        {
-            _httpClient = publicHttpClient.httpClient;
-        }
+    public async ValueTask<Product> GetAsync(int id)
+    {
+        var response = await _httpClient.GetAsync($"api/Product/{id}");
+        await response.HandleError();
 
-        public async ValueTask<List<Product>> GetAllAsync()
-        {
-            var response = await _httpClient.GetAsync("api/product");
-            await response.HandleError();
-            
-            return await response.Content.ReadFromJsonAsync<List<Product>>();
-        }
-
-        public async ValueTask<Product> GetAsync(int id)
-        {
-            var response = await _httpClient.GetAsync($"api/Product/{id}");
-            await response.HandleError();
-
-            return await response.Content.ReadFromJsonAsync<Product>();
-        }
+        return await response.Content.ReadFromJsonAsync<Product>();
     }
 }
+

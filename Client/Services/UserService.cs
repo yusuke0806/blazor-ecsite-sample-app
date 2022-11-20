@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using BlazorECSiteSample.Shared.Entities;
 
 namespace BlazorECSiteSample.Client.Services;
+
 public interface IUserService
 {
     ValueTask<ShopUser> GetMeAsync();
