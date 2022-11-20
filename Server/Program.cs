@@ -1,32 +1,29 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.Identity.Web;
-using BlazorECSiteSample.Server.Data;
-using Microsoft.EntityFrameworkCore;
-using BlazorECSiteSample.Server.Services;
+using BlazorECSiteSample.Server.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContextFactory<DataContext>(options => {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IUserService, UserService>();
-
-// Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));
+builder.Services.AddDatabase(builder.Configuration);
+builder.Services.AddServices();
+builder.Services.AddAuth(builder.Configuration);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+// swagger
+builder.Services.AddSwagger(builder.Configuration);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.OAuthClientId(builder.Configuration["Swagger:ClientId"]);
+        options.OAuthUsePkce();
+    });
     app.UseWebAssemblyDebugging();
 }
 else
