@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorECSiteSample.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220812022809_AddProduct")]
+    [Migration("20221127101213_AddProduct")]
     partial class AddProduct
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,15 +32,12 @@ namespace BlazorECSiteSample.Server.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<decimal>("UnitPrice")
