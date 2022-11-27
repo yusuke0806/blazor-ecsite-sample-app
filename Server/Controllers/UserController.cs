@@ -1,4 +1,5 @@
 using System;
+using System.Net.Mime;
 using System.Security.Claims;
 using BlazorECSiteSample.Server.Services;
 using BlazorECSiteSample.Shared.Entities;
@@ -18,6 +19,9 @@ public class UserController : ControllerBase
         => _userService = userService;
     
     [HttpGet("me")]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async ValueTask<ActionResult<ShopUser>> GetMe()
     {
         var userId = GetUserId();
@@ -27,6 +31,9 @@ public class UserController : ControllerBase
     }
 
     [HttpPut]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async ValueTask<ActionResult> Put(ShopUser shopUser)
     {
         var userId = GetUserId();

@@ -33,6 +33,9 @@ public class ProductController : ControllerBase
 	}
 
 	[HttpGet]
+	[Produces(MediaTypeNames.Application.Json)]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	public async ValueTask<ActionResult<List<Product>>> GetAll()
 	{
 		return Ok(await _productService.GetAllAsync());
