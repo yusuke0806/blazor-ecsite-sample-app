@@ -8,7 +8,7 @@ namespace BlazorECSiteSample.Client.Services;
 
 public interface IPublicProductService
 {
-    ValueTask<List<Product>?> GetAllAsync();
+    ValueTask<List<Product>> GetAllAsync();
     ValueTask<Product> GetAsync(int id);
 }
 

@@ -4,14 +4,14 @@
 <PageTitle>Index</PageTitle>
 
 
-@if (products is null)
+@if (_products is null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
     <div class="row row-cols-1 row-cols-md-4 g-4">
-        @foreach(var product in products )
+        @foreach(var product in _products )
         {
             <div class="col">
                 <NavLink href=@($"products/{product.Id}") style="color: inherit; text-decoration: none;">
@@ -29,8 +29,8 @@ else
 }
 
 @code{
-    private List<Product>? products;
+    private List<Product> _products;
 
     protected override async Task OnInitializedAsync()
-        => products = await PublicProductService.GetAllAsync();
+        => _products = await PublicProductService.GetAllAsync();
 }

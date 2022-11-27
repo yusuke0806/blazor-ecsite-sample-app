@@ -1,15 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
+
 <div>
     <main>
         <nav class="navbar navbar-light" style="background-color: #0078D3;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/" style="color: white;"> サンプルECサイト</a>
                 <form class="d-flex gap-2">
-                    <LoginDisplay/>
+                    <LoginDisplay />
                 </form>
             </div>
         </nav>
+        
         <ErrorBoundary @ref="_errorBoundary">
             <ChildContent>
                 <article class="content px-4">
@@ -24,7 +26,7 @@
 </div>
 
 @code {
-    private ErrorBoundary? _errorBoundary;
+    private ErrorBoundary _errorBoundary;
 
     protected override void OnParametersSet()
     {

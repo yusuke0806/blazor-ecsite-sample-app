@@ -7,8 +7,8 @@ namespace BlazorECSiteSample.Server.Services;
 
 public interface IProductService
 {
-	ValueTask<List<Product?>> GetAllAsync();
-	ValueTask<Product?> FindAsync(int id);
+	ValueTask<List<Product>> GetAllAsync();
+	ValueTask<Product> FindAsync(int id);
 }
 
 public class ProductService : IProductService
@@ -18,7 +18,7 @@ public class ProductService : IProductService
 	public ProductService(IDbContextFactory<DataContext> dbContextFactory)
 		=> _dataContext = dbContextFactory.CreateDbContext();
 	
-	public async ValueTask<List<Product?>> GetAllAsync()
+	public async ValueTask<List<Product>> GetAllAsync()
 	{
 		await using (_dataContext)
 		{
@@ -26,7 +26,7 @@ public class ProductService : IProductService
 		}
 	}
 
-	public async ValueTask<Product?> FindAsync(int id)
+	public async ValueTask<Product> FindAsync(int id)
 	{
 		await using (_dataContext)
 		{
