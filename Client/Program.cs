@@ -1,13 +1,18 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Blazored.LocalStorage;
 using BlazorECSiteSample.Client;
 using BlazorECSiteSample.Client.Util;
 using BlazorECSiteSample.Client.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
+
+//local storage
+builder.Services.AddBlazoredLocalStorage();
 
 builder.Services.AddHttpClient("BlazorECSiteSample.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
     .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
